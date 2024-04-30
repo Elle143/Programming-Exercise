@@ -1,0 +1,103 @@
+import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.scene.control.Label;
+
+public class Calculator extends Application {
+
+   private TextField guessTextField;
+   private TextField twoTextField;
+   private Label resultLabel;
+
+   @Override
+   public void start(Stage stage) {
+     
+     // Create and configure text fields for user entry
+      guessTextField = new TextField();
+      guessTextField.setMaxWidth(150);
+      guessTextField.setPromptText("Enter first number");
+   
+      twoTextField = new TextField();
+      twoTextField.setMaxWidth(150);
+      twoTextField.setPromptText("Enter second number");
+   
+      // Create and configure buttons for arithmetic operations
+      Button addButton = new Button("Add");
+      addButton.setOnAction(e -> performOperation('+'));
+      
+      Button subButton = new Button("Subtraction");
+      subButton.setOnAction(e -> performOperation('-'));
+      
+      Button mulButton = new Button("Multiplication");
+      mulButton.setOnAction(e -> performOperation('x'));
+      
+      Button divButton = new Button("Division");
+      divButton.setOnAction(e -> performOperation('/'));
+   
+      // Create and configure a VBox to hold the components
+      VBox root = new VBox();
+      root.setSpacing(10);
+      root.setAlignment(Pos.BASELINE_LEFT);
+   
+      // Initialize resultLabel
+      resultLabel = new Label();
+   
+      // Add the components to the VBox
+      root.getChildren().addAll(guessTextField, twoTextField,  resultLabel, addButton, subButton, mulButton, divButton);
+   
+      // Create a new scene
+      Scene scene = new Scene(root, 350, 200);
+   
+      // Add the scene to the stage, then configure the stage and make it visible
+      stage.setScene(scene);
+      stage.setTitle("Simple Calculator");
+      stage.show();
+   }
+
+   private void performOperation(char operator) {
+      String onesTextField = guessTextField.getText();
+      String twosTextField = twoTextField.getText();
+   
+      if (isValidNumber(onesTextField) && isValidNumber(twosTextField)) {
+         double num1 = Double.parseDouble(onesTextField);
+         double num2 = Double.parseDouble(twosTextField);
+         double result = 0.0;
+      
+         switch (operator) {
+            case '+':
+               result = num1 + num2;
+               break;
+            case '-':
+               result = num1 - num2;
+               break;
+               
+            case 'x':
+               result = num1 * num2;
+               break;
+               
+               case '/':
+               result = num1 / num2;
+               break;
+         }
+      
+         resultLabel.setText("Result: " + result);
+      }
+   }
+
+   private boolean isValidNumber(String number) {
+      try {
+         Double.parseDouble(number);
+         return true;
+      } catch (NumberFormatException e) {
+         return false;
+      }
+   }
+
+   public static void main(String[] args) {
+      launch(args);
+   }
+}
